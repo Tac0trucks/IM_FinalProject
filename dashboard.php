@@ -6,6 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -147,11 +148,26 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="stat-label">GPA</div>
                 <div class="stat-sub">67 Units Done</div>
             </div>
-            <div class="stat-card card-dark">
-                <div class="stat-val">₱6,700</div>
-                <div class="stat-label">Balance Due</div>
-                <div class="stat-sub">Partial payment on file</div>
-            </div>
+        
+            <?php
+    // Fetch the LATEST data for the logged-in user
+    $uid = $_SESSION['user_id'];
+    $user_query = mysqli_query($conn, "SELECT balance_due, max_units FROM users WHERE id = $uid");
+    $user_data = mysqli_fetch_assoc($user_query);
+            ?>
+
+      <div class="stat-card card-dark">
+    <div class="stat-val">₱<?php echo number_format($user_data['balance_due'], 2); ?></div>
+    <div class="stat-label">Balance Due</div>
+    <div class="stat-sub">Updated from Database</div>
+</div>
+
+<!-- FIND THE UNITS CARD AND UPDATE IT TOO -->
+<div class="stat-card card-red">
+    <div class="stat-val"><?php echo $user_data['max_units']; ?></div>
+    <div class="stat-label">Max Units</div>
+    <div class="stat-sub">of 21 maximum units</div>
+</div>
         </section>
 
         <!-- Alert Bar -->

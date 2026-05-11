@@ -180,24 +180,34 @@ if (!isset($_SESSION['user_id'])) {
                         <span style="color:#ccc;">></span>
                     </a>
 
-                    <a href="#" class="action-card">
-                        <div class="action-icon">⚖️</div>
-                        <div class="action-info">
-                            <h4>Override Unit Loads</h4>
-                            <p>BR_UC5 — Approve overload requests</p>
-                        </div>
-                        <span class="action-status">3 pending</span>
+                   <a href="admin_overload.php" class="action-card">
+                    <div class="action-icon">⚖️</div>
+                    <div class="action-info">
+                    <h4>Override Unit Loads</h4>
+                    <p>BR_UC5 — Approve overload requests</p>
+                    </div>
+                    <!-- We can even make this number dynamic! -->
+                    <span class="action-status">
+            <?php 
+            $count_req = mysqli_query($conn, "SELECT id FROM overload_requests WHERE status='pending'");
+            echo mysqli_num_rows($count_req); 
+            ?> pending
+                </span>
                     </a>
 
-                    <a href="#" class="action-card">
-                        <div class="action-icon">💳</div>
-                        <div class="action-info">
-                            <h4>Process Payments</h4>
-                            <p>BR_PT6 — Mark transactions as processed by Admin</p>
-                        </div>
-                        <span style="color:#ccc;">></span>
-                    </a>
-
+                    <a href="admin_payments.php" class="action-card">
+    <div class="action-icon">💳</div>
+    <div class="action-info">
+        <h4>Process Payments</h4>
+        <p>BR_PT6 — Mark transactions as processed by Admin</p>
+    </div>
+    <span class="action-status">
+        <?php 
+            $count_pay = mysqli_query($conn, "SELECT id FROM payments WHERE status='pending'");
+            echo mysqli_num_rows($count_pay); 
+        ?> pending
+    </span>
+    </a>
                     <a href="#" class="action-card">
                         <div class="action-icon">📊</div>
                         <div class="action-info">
