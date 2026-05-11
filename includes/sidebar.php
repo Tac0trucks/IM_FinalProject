@@ -1,6 +1,11 @@
 <?php
 // This line gets the name of the current file (e.g., 'admin.php' or 'home.php')
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Ensure session is started to check roles
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <style>
@@ -46,7 +51,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     /* Links */
     .sidebar-link {
-        display: block;
+        display: flex;
+        align-items: center;
         text-decoration: none;
         color: #444;
         padding: 10px 15px;
@@ -67,10 +73,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         color: #A3262A !important;
         background-color: #fdf2f2 !important;
     }
+
+    /* Logout Styling */
+    .logout-btn {
+        margin-top: auto;
+        color: #e74c3c;
+    }
+    .logout-btn:hover {
+        background-color: #fff5f5;
+        color: #c0392b;
+    }
+
+    /* Emoji Spacing */
+    .sidebar-link span {
+        margin-right: 10px;
+        font-size: 16px;
+    }
 </style>
 
 <aside class="sidebar">
     <div class="sidebar-logo-section">
+        <!-- Make sure the path to your logo is correct -->
         <img src="/assets/cit-logo.png" alt="CIT Logo">
         <div class="logo-text">
             <span class="brand">CIT-University</span>
@@ -78,39 +101,69 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </div>
     </div>
 
+    <!-- MAIN MENU -->
     <div class="sidebar-section">
         <h3>Main Menu</h3>
-        <!-- If current page is home.php, add 'active' class -->
-        <a href="home.php" class="sidebar-link <?php echo ($current_page == 'home.php') ? 'active' : ''; ?>">Home</a>
+        <a href="home.php" class="sidebar-link <?php echo ($current_page == 'home.php') ? 'active' : ''; ?>">
+            <span>🏠</span> Home
+        </a>
     </div>
 
+    <!-- STUDENT MANAGEMENT -->
     <div class="sidebar-section">
         <h3>Student Management</h3>
         <?php 
-    // If admin, link goes to admin.php, if student, goes to dashboard.php
-    $dashboard_url = ($_SESSION['role'] === 'admin') ? 'admin.php' : 'dashboard.php';
+            // Logical Check: Admins go to admin.php, Students go to dashboard.php
+            $dash_page = ($_SESSION['role'] === 'admin') ? 'admin.php' : 'dashboard.php';
         ?>
-        <a href="<?php echo $dashboard_url; ?>" class="sidebar-link">Dashboard</a>
-        <a href="priority.php" class="sidebar-link <?php echo ($current_page == 'priority.php') ? 'active' : ''; ?>">Priority Window</a>
-        <a href="calculation.php" class="sidebar-link <?php echo ($current_page == 'calculation.php') ? 'active' : ''; ?>">Unit Calculation</a>
-        <a href="payments.php" class="sidebar-link <?php echo ($current_page == 'payments.php') ? 'active' : ''; ?>">Payments</a>
+        <a href="<?php echo $dash_page; ?>" class="sidebar-link <?php echo ($current_page == $dash_page) ? 'active' : ''; ?>">
+            <span>📊</span> Dashboard
+        </a>
+        
+        <a href="priority.php" class="sidebar-link <?php echo ($current_page == 'priority.php') ? 'active' : ''; ?>">
+            <span>🕒</span> Priority Window
+        </a>
+        
+        <a href="calculation.php" class="sidebar-link <?php echo ($current_page == 'calculation.php') ? 'active' : ''; ?>">
+            <span>🧮</span> Unit Calculation
+        </a>
+        
+        <a href="payments.php" class="sidebar-link <?php echo ($current_page == 'payments.php') ? 'active' : ''; ?>">
+            <span>💳</span> Payments
+        </a>
     </div>
 
+    <!-- STUDENT TOOLS -->
     <div class="sidebar-section">
         <h3>Student Tools</h3>
-        <a href="enrollment.php" class="sidebar-link <?php echo ($current_page == 'enrollment.php') ? 'active' : ''; ?>">Self-Enrollment</a>
-        <a href="profile.php" class="sidebar-link <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">MyProfile</a>
+        <a href="enrollment.php" class="sidebar-link <?php echo ($current_page == 'enrollment.php') ? 'active' : ''; ?>">
+            <span>📝</span> Self-Enrollment
+        </a>
+        <a href="profile.php" class="sidebar-link <?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>">
+            <span>👤</span> MyProfile
+        </a>
     </div>
 
+    <!-- GENERAL -->
     <div class="sidebar-section">
         <h3>General</h3>
-        <a href="announcements.php" class="sidebar-link <?php echo ($current_page == 'announcements.php') ? 'active' : ''; ?>">Announcement</a>
+        <a href="announcements.php" class="sidebar-link <?php echo ($current_page == 'announcements.php') ? 'active' : ''; ?>">
+            <span>📢</span> Announcement
+        </a>
     </div>
 
-    <?php if ($_SESSION['role'] === 'admin'): ?>
+    <!-- ADMINISTRATION (Only visible to Admin role) -->
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
     <div class="sidebar-section">
         <h3>Administration</h3>
-        <a href="admin.php" class="sidebar-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>">AdminPanel</a>
+        <a href="admin.php" class="sidebar-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>">
+            <span>⚙️</span> AdminPanel
+        </a>
     </div>
-<?php endif; ?>
+    <?php endif; ?>
+
+    <!-- LOGOUT -->
+    <a href="logout.php" class="sidebar-link logout-btn">
+        <span>🚪</span> Logout
+    </a>
 </aside>
