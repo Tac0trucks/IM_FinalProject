@@ -154,12 +154,24 @@
             
             <div class="cta-group">
                 <a href="admissions.php" class="btn-primary">View Admissions</a>
+                  <a href="register.php" style="
+                    border: 2px solid #A3262A; 
+                    color: #A3262A; 
+                    padding: 14px 30px; 
+                    border-radius: 12px; 
+                    text-decoration: none; 
+                    font-weight: 600;
+                    transition: 0.3s;
+                    " onmouseover="this.style.backgroundColor='#fff5f5'" onmouseout="this.style.backgroundColor='transparent'">
+                    Register
+    </a>
             </div>
         </div>
 
         <div class="hero-image">
             <div class="image-placeholder">
                 <!-- If you have a campus photo, put it here: <img src="campus.jpg" style="width:100%; height:100%; object-fit:cover;"> -->
+                 <img src="/assets/cit-campus.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <div class="badge">
                 <div class="badge-icon"></div>

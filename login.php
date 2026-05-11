@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="login-container">
     <!-- Replace with your actual logo path -->
-    <img src="logo.png" alt="CIT Logo">
+    <img src="/assets/cit-logo.png" alt="CIT Logo">
     
     <h2>Welcome Back</h2>
     <p>Please enter your details to sign in.</p>
