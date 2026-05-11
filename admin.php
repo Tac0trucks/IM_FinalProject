@@ -6,6 +6,13 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
+// 2. THE FIX: Check if the user is an admin
+if ($_SESSION['role'] !== 'admin') {
+    // If they are a student, kick them back to the Student Home
+    header("Location: home.php?error=unauthorized");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

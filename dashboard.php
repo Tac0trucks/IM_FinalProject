@@ -196,12 +196,22 @@ if (!isset($_SESSION['user_id'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- This is where we will later use PHP loops to pull from MySQL -->
-                        <tr><td>CS-221 Data Structures</td><td>MWF 1:30PM - 2:30PM</td><td>R-401</td><td>3</td><td>Enrolled</td></tr>
-                        <tr><td>CS-222 Web Dev 1</td><td>TTH 9:00AM - 10:30AM</td><td>L-202</td><td>3</td><td>Enrolled</td></tr>
-                        <tr><td>MATH-21 Statistics</td><td>MWF 8:00AM - 9:00AM</td><td>R-102</td><td>3</td><td>Enrolled</td></tr>
-                        <tr><td>GE-101 Ethics</td><td>TTH 1:00PM - 2:30PM</td><td>R-505</td><td>3</td><td>Enrolled</td></tr>
-                    </tbody>
+    <?php
+    $enrolled_q = mysqli_query($conn, "SELECT s.* FROM enrollments e JOIN subjects s ON e.subject_id = s.id WHERE e.user_id = $uid");
+    if(mysqli_num_rows($enrolled_q) > 0):
+        while($row = mysqli_fetch_assoc($enrolled_q)):
+    ?>
+        <tr>
+            <td><?php echo $row['subject_code'] . " - " . $row['subject_name']; ?></td>
+            <td><?php echo $row['schedule']; ?></td>
+            <td><?php echo $row['room']; ?></td>
+            <td><?php echo $row['units']; ?></td>
+            <td><span style="color:green; font-weight:bold;">Enrolled</span></td>
+        </tr>
+    <?php endwhile; else: ?>
+        <tr><td colspan="5" style="text-align:center; padding:30px;">No subjects enrolled yet.</td></tr>
+    <?php endif; ?>
+</tbody>
                 </table>
             </div>
 

@@ -86,7 +86,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <div class="sidebar-section">
         <h3>Student Management</h3>
-        <a href="dashboard.php" class="sidebar-link <?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">Dashboard</a>
+        <?php 
+    // If admin, link goes to admin.php, if student, goes to dashboard.php
+    $dashboard_url = ($_SESSION['role'] === 'admin') ? 'admin.php' : 'dashboard.php';
+        ?>
+        <a href="<?php echo $dashboard_url; ?>" class="sidebar-link">Dashboard</a>
         <a href="priority.php" class="sidebar-link <?php echo ($current_page == 'priority.php') ? 'active' : ''; ?>">Priority Window</a>
         <a href="calculation.php" class="sidebar-link <?php echo ($current_page == 'calculation.php') ? 'active' : ''; ?>">Unit Calculation</a>
         <a href="payments.php" class="sidebar-link <?php echo ($current_page == 'payments.php') ? 'active' : ''; ?>">Payments</a>
@@ -103,9 +107,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <a href="announcements.php" class="sidebar-link <?php echo ($current_page == 'announcements.php') ? 'active' : ''; ?>">Announcement</a>
     </div>
 
+    <?php if ($_SESSION['role'] === 'admin'): ?>
     <div class="sidebar-section">
         <h3>Administration</h3>
-        <!-- If current page is admin.php, add 'active' class -->
         <a href="admin.php" class="sidebar-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>">AdminPanel</a>
     </div>
+<?php endif; ?>
 </aside>
